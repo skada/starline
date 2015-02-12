@@ -1,0 +1,22 @@
+{% load bootstrap3 %}
+{% load staticfiles %}
+{% load compile_static %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}" dir="ltr">
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ SITE_TITLE }}</title>
+        {% block _css %}
+        {% bootstrap_css %}
+        <link rel="stylesheet" href="{{ STATIC_URL}}{% compile "less/main.less" %}" />
+        {% endblock _css %}  
+    </head>
+    <body>
+    {% block _body %}
+    {% endblock _body %}    
+    {% block _js %}
+    {% bootstrap_javascript jquery=1 %}
+    <script src="{% static 'js/core.js' %}"></script>
+    {% endblock _js %}
+    </body>
+</html>

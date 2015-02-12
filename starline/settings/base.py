@@ -1,5 +1,5 @@
 """
-Django settings for startline project.
+Django settings for starline project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -31,8 +31,13 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'bootstrap3',
+    'static_precompiler',
+    'rest_framework',
 
     'base',
+    'people',
+    'resources',
+    'planning',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -45,9 +50,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'startline.urls'
+ROOT_URLCONF = 'starline.urls'
 
-WSGI_APPLICATION = 'startline.wsgi.application'
+WSGI_APPLICATION = 'starline.wsgi.application'
 
 
 # Database
@@ -82,3 +87,11 @@ STATIC_ROOT = join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = join(BASE_DIR, 'media')
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'static_precompiler.finders.StaticPrecompilerFinder',
+)
+
+AUTH_USER_MODEL = 'people.User'
