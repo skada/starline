@@ -50,6 +50,25 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
+    UT_ADMIN = 0
+    UT_HLV = 1
+    UT_DOCTOR = 2
+    UT_TUTOR = 3
+    UT_PARENT = 4
+
+    USER_TYPES = (
+        (UT_ADMIN, _('Admin')),
+        (UT_HLV, _('Main instructor')),
+        (UT_DOCTOR, _('Doctor')),
+        (UT_TUTOR, _('Tutor')),
+        (UT_PARENT, _('Parent')),
+    )
+
+    USER_TYPES_DICT = dict(USER_TYPES)
+
+    user_type = models.SmallIntegerField(_('User type'), choices=USER_TYPES,
+                                         db_index=True)
+
     class Meta:
         verbose_name = _('User')
         verbose_name_plural = _('Users')

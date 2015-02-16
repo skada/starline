@@ -31,7 +31,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'bootstrap3',
-    'static_compiler',
+    'static_precompiler',
     'rest_framework',
     'mptt',
 

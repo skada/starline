@@ -12,6 +12,9 @@
         {% endblock _css %}  
     </head>
     <body>
+    {% block _nav %}
+    {% include 'inc/nav.html' %}
+    {% endblock _nav %}
     {% block _body %}
     {% endblock _body %}    
     {% block _js %}

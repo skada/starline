@@ -1,6 +1,7 @@
 Django<1.8
 django-bootstrap3
-django-static-compiler
+django-mptt
+django-static-precompiler
 djangorestframework
 markdown
 django-filter

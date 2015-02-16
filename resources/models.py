@@ -1,11 +1,12 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from mptt.models import MPTTModel, TreeForeignKey
 
-class ResourceBase(models.Model):
+
+class ResourceBase(MPTTModel):
     name = models.CharField(_('Name'), max_length=100)
-    parent = models.ForeignKey('self', null=True, blank=True, db_index=True)
-
+    parent = TreeForeignKey('self', null=True, blank=True, db_index=True)
 
     class Meta:
         verbose_name = _('Resource')
