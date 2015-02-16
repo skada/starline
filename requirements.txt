@@ -1,2 +1,6 @@
 Django<1.8
 django-bootstrap3
+django-static-compiler
+djangorestframework
+markdown
+django-filter
