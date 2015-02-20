@@ -16,7 +16,16 @@
     {% include 'inc/nav.html' %}
     {% endblock _nav %}
     {% block _body %}
-    {% endblock _body %}    
+    {% endblock _body %}
+    {% block _footer %}
+        <footer class="navbar navbar-default navbar-fixed-bottom">
+            <div class="container">
+                <span class="pull-right">
+                    Starline managerment software by Jakub Skaryd
+                </span>
+            </div>
+        </footer>
+    {% endblock _footer %}
     {% block _js %}
     {% bootstrap_javascript jquery=1 %}
     <script src="{% static 'js/core.js' %}"></script>

@@ -5,6 +5,8 @@ from django.utils import timezone
 from django.utils.http import urlquote
 from django.utils.translation import ugettext_lazy as _
 
+from base.models import Slugified
+
 
 class UserManager(BaseUserManager):
 
@@ -16,11 +18,18 @@ class UserManager(BaseUserManager):
         now = timezone.now()
         if not email:
             raise ValueError('The given email must be set')
+
+        if is_superuser:
+            user_type = User.UT_ADMIN
+        else:
+            user_type = User.UT_PARENT
+
         email = self.normalize_email(email)
         user = self.model(email=email,
                           is_staff=is_staff, is_active=True,
                           is_superuser=is_superuser, last_login=now,
-                          date_joined=now, **extra_fields)
+                          date_joined=now, user_type=user_type,
+                          **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -104,3 +113,17 @@ class User(AbstractBaseUser, PermissionsMixin):
             return u'%s' % full_name
         else:
             return super(User, self).__unicode__()
+
+
+class KidGroup(Slugified):
+
+    class Meta:
+        verbose_name = _('Kid group')
+        verbose_name_plural = _('Kid groups')
+
+
+class Kid(models.Model):
+
+    class Meta:
+        verbose_name = _('Kid')
+        verbose_name_plural = _('Kids')

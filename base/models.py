@@ -1,6 +1,7 @@
 from decimal import Decimal as D
 
 from django.db import models
+from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -31,3 +32,18 @@ class Price(models.Model):
         abstract = True
 
 
+class Slugified(models.Model):
+    name = models.CharField(_('Name'), max_length=255)
+    slug = models.SlugField(_('Slug'),)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+
+        super(Slugified, self).save(*args, **kwargs)
+
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        abstract = True
