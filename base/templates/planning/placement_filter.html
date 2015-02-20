@@ -1,0 +1,62 @@
+{% extends 'page/base.html' %}
+{% load bootstrap3 %}
+
+{% block _body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Parametry</div>
+                    <div class="panel-body">
+                        <form method="GET">
+                        {% bootstrap_form filter.form %}
+                            {% csrf_token %}
+                            <button class="btn center-block" type="submit">Filter</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"><strong>Umisteni</strong></div>
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"><strong>Jmeno</strong></div>
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"><strong>Prijmeni</strong></div>
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"><strong>Ostatni</strong></div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><strong>Akce</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="container-fluid">
+                            {% for placement in object_list %}
+                            <div class="row">
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">{{ placement.resource.name }}</div>
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">{{ placement.kid.first_name }}</div>
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">{{ placement.kid.last_name }}</div>
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"></div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 btn-group">
+                                 <!-- Single button -->
+
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+    Action <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+      <li><a href="{% url 'kid_update' placement.kid.id%}?next={{ request.get_full_path }}">Upravit</a></li>
+      <li><a href="#">Premistit</a></li>
+      <li class="divider"></li>
+      <li><a href="#">Zdravotni prijem</a></li>
+      <li><a href="#">Zdravotni udalost</a></li>
+  </ul>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock _body %}

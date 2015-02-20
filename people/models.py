@@ -123,6 +123,15 @@ class KidGroup(Slugified):
 
 
 class Kid(models.Model):
+    first_name = models.CharField(_('First name'), max_length=100)
+    last_name = models.CharField(_('Last name'), max_length=100)
+
+    date_of_birth = models.DateField(_('Date of birth'), null=True, blank=True)
+
+    non_swimmer = models.BooleanField(_('Non swimmer'), default=False)
+
+    def __str__(self):
+        return "%s %s (%s)" % (self.first_name, self.last_name, self.date_of_birth)
 
     class Meta:
         verbose_name = _('Kid')

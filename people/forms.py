@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.utils.translation import ugettext_lazy as _
 
-from people.models import User
+from people.models import User, Kid
 
 
 class UserCreationForm(forms.ModelForm):
@@ -89,3 +89,9 @@ class UserChangeForm(forms.ModelForm):
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
         return self.initial["password"]
+
+
+class KidForm(forms.ModelForm):
+
+    class Meta:
+        model = Kid

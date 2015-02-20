@@ -2,13 +2,14 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from people.models import Kid
-from resources.models import Compound, Resource
+from resources.models import Compound, Resource, ResourceBase
 
 
 class BatchManager(models.Manager):
 
     def all_years(self):
-        return self.dates('start', 'year').distinct()
+        data = self.dates('start', 'year').distinct().defer('start')
+        return data
 
 
 class Batch(models.Model):
@@ -60,11 +61,17 @@ class PlacementManager(models.Manager):
 
 
 class Placement(models.Model):
+    compound = models.ForeignKey(Compound, null=True, blank=True, related_name='compound')
     resource = models.ForeignKey(Resource)
     batch = models.ForeignKey(Batch)
     kid = models.ForeignKey(Kid, null=True, blank=True)
 
     objects = PlacementManager()
+
+    def save(self, *args, **kwargs):
+        root = self.resource.get_root()
+        self.compound = Compound.objects.get(pk=root.id)
+        super(Placement, self).save(*args, **kwargs)
 
     def __str__(self):
         return '%s - %s' % (self.batch, self.kid)
