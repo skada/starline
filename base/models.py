@@ -47,3 +47,18 @@ class Slugified(models.Model):
 
     class Meta:
         abstract = True
+
+
+class AddressMixInModel(object):
+    street1 = models.CharField(_('Street 1'), max_length=255, null=True, blank=True)
+    street2 = models.CharField(_('Street 2'), max_length=255, null=True, blank=True)
+    city = models.CharField(_('City'), max_length=100, null=True, blank=True)
+    post_code = models.CharField(_('Post code'), max_length=10, null=True, blank=True)
+
+
+class PositionMixIn(models.Model):
+    left = models.IntegerField(_('Left'), default=10)
+    top = models.IntegerField(_('Top'), default=10)
+
+    class Meta:
+        abstract = True

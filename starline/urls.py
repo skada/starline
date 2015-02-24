@@ -4,12 +4,15 @@ from django.contrib import admin
 
 from django_filters.views import FilterView
 # TODO: include urls from base
+from base.views import SchemaView
 from planning.views import PlacementView
 
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', PlacementView.as_view(), name='home'),
+    url(r'^schema/(?P<compound>[\w-]+)/$', SchemaView.as_view(), name='schema'),
     url(r'^people/', include('people.urls')),
+    url(r'^resources/', include('resources.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))

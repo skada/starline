@@ -2,10 +2,10 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from mptt.models import MPTTModel, TreeForeignKey
-from base.models import Slugified
+from base.models import Slugified, PositionMixIn
 
 
-class ResourceBase(MPTTModel, Slugified):
+class ResourceBase(MPTTModel, Slugified, PositionMixIn):
     parent = TreeForeignKey('self', null=True, blank=True, db_index=True)
 
     class Meta:

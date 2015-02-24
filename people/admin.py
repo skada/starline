@@ -13,7 +13,7 @@ from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _, ugettext
 
 from people.forms import UserChangeForm, UserCreationForm
-from people.models import User, Kid, KidGroup
+from people.models import User, Kid, KidGroup, EntryMedicalCheck
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -162,8 +162,15 @@ class UserAdmin(admin.ModelAdmin):
                                                    post_url_continue)
 
 
+class EntryMedicalCheckInline(admin.TabularInline):
+    model = EntryMedicalCheck
+
+
 class KidAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'date_of_birth',)
+    inlines = [
+        EntryMedicalCheckInline,
+    ]
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Kid, KidAdmin)

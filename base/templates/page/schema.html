@@ -1,0 +1,73 @@
+{% extends 'page/base.html' %}
+{% load bootstrap3 %}
+
+{% block _body %}
+    <div class="container-fluid schema-main">
+    {% for r in resources %}
+        <div id="resource_{{ r.id }}" class="panel panel-default resource" style="left:{{ r.left }}px; top:{{ r.top }}px" data-name="{{ r.name }}" data-id="{{ r.id }}">
+            <div class="panel-heading text-center">{{ r.name }}</div>
+            <div class="panel-body kid-droppable"></div>
+        </div>
+    {% endfor %}
+    <div class="kid-container kid-droppable panel panel-default">
+        <div class="panel-heading">Kids list</div>
+        {% for k in kids %}
+        <div class="kid">
+            <div class="kid-handle">{{ k.first_name }} {{ k.last_name }}</div>
+            <div><a href="{% url 'kid_update' k.id %}">Upravit</a></div>
+        </div>
+        {% endfor %}
+    </div>
+    </div>
+
+
+{% endblock _body %}
+
+{% block _js %}
+{{ block.super }}
+    <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
+    <script>
+        $(function() {
+            $('.resource').draggable({
+                containment: ".schema-main",
+                handle: ".panel-heading",
+                stop: function(e, ui) {
+                    var id = ui.helper.attr("data-id");
+                    var name = ui.helper.attr("data-name");
+                    $.ajax("/resources/api/resource/" + id + "/", {
+                        type: "put",
+                        headers: { "X-CSRFToken": getCookie("csrftoken") },
+                        data: JSON.stringify({
+                            name: name,
+                            top: ui.position.top,
+                            left: ui.position.left
+                        }),
+                        contentType: 'application/json',
+                        dataType: 'json'
+                    })
+                }
+            });
+            $('.kid').draggable({
+                containment: ".schema-main",
+                revert: "invalid",
+                handle: ".kid-handle",
+                zIndex: 100
+            });
+            $('.kid-droppable').droppable({
+                accept: ".kid",
+                drop: function(e, ui) {
+                    var item = ui.draggable;
+                    item.remove();
+                    item.attr("style", "");
+                    $(this).append(item);
+                    $('.kid').draggable({
+                        containment: ".schema-main",
+                        revert: "invalid",
+                        handle: ".kid-handle",
+                        zIndex: 100
+                    });
+                }
+            })
+        });
+    </script>
+{% endblock _js %}

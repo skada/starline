@@ -1,8 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.forms import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 
-from people.models import User, Kid
+from people.models import User, Kid, EntryMedicalCheck
 
 
 class UserCreationForm(forms.ModelForm):
@@ -95,3 +96,5 @@ class KidForm(forms.ModelForm):
 
     class Meta:
         model = Kid
+
+EntryMedicalCheckFormSet = inlineformset_factory(Kid, EntryMedicalCheck)

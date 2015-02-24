@@ -130,9 +130,22 @@ class Kid(models.Model):
 
     non_swimmer = models.BooleanField(_('Non swimmer'), default=False)
 
+    description = models.TextField(_('Description'), blank=True, null=True)
+
     def __str__(self):
         return "%s %s (%s)" % (self.first_name, self.last_name, self.date_of_birth)
 
     class Meta:
         verbose_name = _('Kid')
         verbose_name_plural = _('Kids')
+
+
+class EntryMedicalCheck(models.Model):
+    kid = models.ForeignKey(Kid)
+    medicine = models.CharField(_('Medicine'), max_length=100, null=True, blank=True)
+    dosage = models.CharField(_('Dosage'), max_length=50, null=True, blank=True)
+    description = models.TextField(_('Description'), null=True, blank=True)
+
+    class Meta:
+        verbose_name = _('Entry medical check')
+        verbose_name_plural = _('Entry medical checks')
